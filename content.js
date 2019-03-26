@@ -23,16 +23,13 @@ function reverseImageSearch(rawimage) {
   xhr.send(fd);
 }
 
-
 function reverseSearch() {
   chrome.tabs.captureVisibleTab(function(screenshotUrl) {
     /*uploading the screenshot to a sever & generating url*/
 
-     //asking for image crop from user
-    if (confirm("Do you want to crop the image?")) {
-      // get cropped image & proceed
-      getCroppedImage(screenshotUrl, "reversesearch");
-      chrome.runtime.onMessage.addListener(function(
+    // get cropped image & proceed
+    getCroppedImage(screenshotUrl, "reversesearch");
+    chrome.runtime.onMessage.addListener(function(
       message,
       sender,
       sendResponse
@@ -43,9 +40,6 @@ function reverseSearch() {
       //removing message listener
       chrome.runtime.onMessage.removeListener(arguments.callee);
     });
-    } else {
-      reverseImageSearch(screenshotUrl);
-    }
   });
 }
 
@@ -105,6 +99,7 @@ function reverseSearch() {
   function dataURItoBlob(dataURI) {
     // convert base64/URLEncoded data component to raw binary data held in a string
     var byteString;
+    console.log(dataURI);
     if (dataURI.split(",")[0].indexOf("base64") >= 0)
       byteString = atob(dataURI.split(",")[1]);
     else byteString = unescape(dataURI.split(",")[1]);

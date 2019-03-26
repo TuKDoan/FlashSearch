@@ -6,14 +6,14 @@
 */
 console.log("callbackMethod : " + callbackMethod);
 
- //injecting croppingjs.css stylesheet to the webpage
+//injecting croppingjs.css stylesheet to the webpage
 var link = document.createElement("link");
 link.rel = "stylesheet";
 // link.type = "text/css";
 link.href = "https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.css";
 document.querySelector("head").appendChild(link);
 
- //hiding the webpage
+//hiding the webpage
 var body = document.querySelector("body");
 body.style.display = "none";
 //creating a img inside div
@@ -43,68 +43,59 @@ if (!document.querySelector("#cropping-tool")) {
   //div.appendChild(button);
   document.querySelector("html").appendChild(div);
 
-   /*creating a cropper tool*/
+  /*creating a cropper tool*/
   var image = document.getElementById("image");
   var cropper = new Cropper(image, {
     autoCrop: true,
     zoomable: false,
-    movable: false,
-    rotatable: false,
-    cropend: function(e) {
-      //crop end event listener
-      /*console.log(e.detail.x);
-	    console.log(e.detail.y);
-	    console.log(e.detail.width);
-	    console.log(e.detail.height);
-	    console.log(e.detail.rotate);
-	    console.log(e.detail.scaleX);
-	    console.log(e.detail.scaleY);
-
-	  	/*passing 'e' back to background page for further processing*/
-      //e
-    }
+    movable: true,
+    rotatable: true,
+    cropend: function(e) {}
   });
 
-   //function to handle key press event on cropping interface
+  //function to handle key press event on cropping interface
   function handleKeyPress(e) {
     // use e.keyCode
-    console.log("------------------- Image Cropped!! ---------------------");
-    var i = cropper.getCroppedCanvas().toDataURL("image/jpeg");
+    if (e.which != 27) {
+      console.log("------------------- Image Cropped!! ---------------------");
+      var i = cropper.getCroppedCanvas().toDataURL("image/jpeg");
 
-     /*make the webpage visible again*/
-    document.querySelector("body").removeAttribute("style");
+      /*make the webpage visible again*/
+      document.querySelector("body").removeAttribute("style");
 
-     //removing key listener
-    document.removeEventListener("keyup", handleKeyPress);
+      //removing key listener
+      document.removeEventListener("keydown", handleKeyPress);
 
-     /*remove div#cropping-tool element*/
-    document.querySelector("#cropping-tool").remove();
+      /*remove div#cropping-tool element*/
+      document.querySelector("#cropping-tool").remove();
 
-     //send message to background script with cropped image
-    chrome.runtime.sendMessage(
-      { callbackMethod: callbackMethod, croppedImage: i },
-      function(response) {
-        //do nothing
-      }
-    );
-    console.log("cropped image sent to background script");
+      //send message to background script with cropped image
+      chrome.runtime.sendMessage(
+        { callbackMethod: callbackMethod, croppedImage: i },
+        function(response) {
+          //do nothing
+        }
+      );
+      console.log("cropped image sent to background script");
+    } else {
+      /*make the webpage visible again*/
+      document.querySelector("body").removeAttribute("style");
+
+      //removing key listener
+      document.removeEventListener("keydown", handleKeyPress);
+
+      /*remove div#cropping-tool element*/
+      document.querySelector("#cropping-tool").remove();
+      //send message to background script with cropped image
+      chrome.runtime.sendMessage(
+        { callbackMethod: "empty", croppedImage: null },
+        function(response) {
+          //do nothing
+        }
+      );
+    }
   }
 
-   //adding event listener for key press event on cropping interface
-  document.addEventListener("keyup", handleKeyPress);
-
-   //this button listener can be used if required later on
-  /*button.addEventListener('click', function doneCropping(e){
-		console.log("------------------- Image Cropped!! ---------------------");
-		var i = cropper.getCroppedCanvas().toDataURL('image/jpeg');
-		document.getElementById("cropping-tool").remove();
-		var ig = document.createElement('img');
-		ig.src=i;
-		document.querySelector("html").appendChild(ig);
-		console.log(i);
-	}, true);*/
-
-   alert(
-    "Use cursor for selecting region from image, then press any key to Crop!"
-  );
+  //adding event listener for key press event on cropping interface
+  document.addEventListener("keydown", handleKeyPress);
 }
