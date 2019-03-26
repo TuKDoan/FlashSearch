@@ -47,10 +47,10 @@ export default {
   background: true,
 
   // Enable to crop the image automatically when initialize
-  autoCrop: true,
+  autoCrop: false,
 
   // Define the percentage of automatic cropping area when initializes
-  autoCropArea: 0.8,
+  autoCropArea: 0.1,
 
   // Enable to move the image
   movable: true,
