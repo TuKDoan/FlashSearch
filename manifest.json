@@ -1,0 +1,26 @@
+{
+  "name": "Kevin Doan",
+  "version": "1",
+  "description": "google image search from screenshot",
+  "author": "Kevin Doan <k.doan@utexas.edu",
+  "homepage_url": "https://github.com/TuKDoan/FlashSearch",
+  "manifest_version": 1,
+  "background": {
+    "scripts": ["content.js"]
+  },
+  "browser_action": {
+    "default_icon": "icon.png"
+  },
+  "icons": {
+    "144": "icon.png"
+  },
+  "permissions": ["tabs", "activeTab", "http://*/", "https://*/"],
+  "commands": {
+    "reverseSearch": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "activate reverse image search"
+    }
+  }
+}
