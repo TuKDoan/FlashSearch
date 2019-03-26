@@ -17,9 +17,8 @@ Drag and drop the cloned folder into the browser.
 
 ### screenshots
 
-![screenshot](https://imgur.com/1WBtJhl)
-![screenshot](https://imgur.com/6quLZsA)
-
+![screenshot](https://i.imgur.com/1WBtJhl.jpg)
+![screenshot](https://i.imgur.com/6quLZsA.png)
 
 ### Usage
 ```
