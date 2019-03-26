@@ -30,3 +30,7 @@ Drag over area you want to reverse search
 
 Press any key to confirm search
 ```
+
+### License
+
+MIT © 2019 TuKDoan
